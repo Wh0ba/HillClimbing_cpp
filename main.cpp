@@ -21,18 +21,26 @@ int main() {
 	edgeCount = e;
 	Node parentNodes[edgeCount];
 	Node childNodes[edgeCount];
-	readGraph(parentNodes, childNodes, edgeCount);
-	printGraph(parentNodes, childNodes, edgeCount);
+	readGraph(parentNodes, childNodes);
+	cout << "Enter The Start State: "
+	char start;cin >> start;
+	cout << "Enter the Goal State: "
+	char goal;cin >> goal;
+
+	//printGraph(parentNodes, childNodes, edgeCount);
+	string result = HillClimb(parentNodes, childNodes, start, goal)
 	return 0;
 }
 
-Node getNode(char state, Node p[], Node c[]) {
-	for (int i = 0; i < edgeCount; i++) {
-		if(state == p[i].state) return p[i];
-		if(state == c[i].state) return c[i];
+Node getNode(Node p[], Node c[]) {
+	char s;
+	cin >> s;
+	for (int i = 0; i < edgeCount; i++) { // search for the node in both arrays
+		if(s == p[i].state) return p[i];
+		if(s == c[i].state) return c[i];
 	}
 	Node t;
-	t.state = state;
+	t.state = s;
 	cout << "\tValue: ";
 	cin >> t.value;
 	return t;
@@ -43,11 +51,9 @@ void readGraph(Node parents[], Node children[]) {
 		Node p;
 		Node c;
 		cout << "Parent Node: ";
-		cin >> p.state;
-		p = getNode(p.state, parents, children);
+		p = getNode(parents, children);
 		cout << "Child Node: ";
-		cin >> c.state;
-		c = getNode(c.state, parents, children);
+		c = getNode(parents, children);
 		parents[i] = p;
 		children[i] = c;
 	}
@@ -72,13 +78,13 @@ void printGraph(Node parents[], Node children[]) {
 // 0 1 2 3 4
 // A A B C C
 // B C D E F
-string HillClimb(Node parents[], Node children[],Node start, Node goal){
-	stack<Node> open;
-	stack<Node> close;
+string HillClimb(Node parents[], Node children[],char start, char goal){
+	stack<char> open;
+	stack<char> close;
 	open.push(start);
 	while(!open.empty()){
 		for(int i=0;i<edgeCount;i++){
-			if(parents[i].state != open.top().state) {
+			if(parents[i].state != open.top()) {
 				if(i == edgeCount - 1){
 					close.push(open.top());
 					open.pop();
@@ -91,11 +97,11 @@ string HillClimb(Node parents[], Node children[],Node start, Node goal){
 			open.pop();
 			Node minNode = children[i];
 			for(int j=i+1;j<edgeCount){
-				if(c.state == parents[i]){
+				if(c.state == parents[i].state){
 					if(children[j].value < minNode.value) minNode = children[j];
 				}		
 			}
-			open.push(minNode)
+			open.push(minNode.state)
 			break;
 		}
 	}
