@@ -67,14 +67,22 @@ void printGraph(Node parents[], Node children[]) {
 		cout << endl;
 	}
 }
-
+// 0 1 2 3 4
+// A A B C C
+// B C D E F
 string HillClimb(Node parents[], Node children[],char start, char goal){
 	stack<char> open;
 	stack<char> close;
 	for(int i=0;i<edgeCount;i++){
 		if(parents[i].state != start) continue;
-		Node s = parents[i];
-		 
+		Node c = parents[i];
+		Node minNode = children[i];
+		for(int j=i+1;j<edgeCount){
+			if(c.state == parents[i]){
+				
+			}
+		}
+
 	}
 
 }
