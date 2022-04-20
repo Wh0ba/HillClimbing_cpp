@@ -22,13 +22,14 @@ int main() {
 	Node parentNodes[edgeCount];
 	Node childNodes[edgeCount];
 	readGraph(parentNodes, childNodes);
-	cout << "Enter The Start State: "
+	cout << "Enter The Start State: ";
 	char start;cin >> start;
-	cout << "Enter the Goal State: "
+	cout << "Enter the Goal State: ";
 	char goal;cin >> goal;
 
 	//printGraph(parentNodes, childNodes, edgeCount);
-	string result = HillClimb(parentNodes, childNodes, start, goal)
+	string result = HillClimb(parentNodes, childNodes, start, goal);
+	cout << "Result: " << result << endl;
 	return 0;
 }
 
@@ -96,12 +97,12 @@ string HillClimb(Node parents[], Node children[],char start, char goal){
 			close.push(open.top());
 			open.pop();
 			Node minNode = children[i];
-			for(int j=i+1;j<edgeCount){
-				if(c.state == parents[i].state){
+			for(int j=i+1;j<edgeCount;j++){
+				if(c.state == parents[j].state){
 					if(children[j].value < minNode.value) minNode = children[j];
 				}		
 			}
-			open.push(minNode.state)
+			open.push(minNode.state);
 			break;
 		}
 	}
