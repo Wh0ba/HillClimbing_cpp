@@ -116,14 +116,3 @@ string HillClimb(Node parents[], Node children[],char start, char goal){
 	reverse(path.begin(), path.end());
 	return path;
 }
-
-
-Node getSmallestChild(char parent, int i, Node parents[], Node children[]) {
-	Node minNode = children[i];
-	for(int j = i+1; j < edgeCount; j++) {
-		if(parent == parents[j].state) {
-			if(children[j].value < minNode.value) minNode = children[j];
-		}
-	}
-	return minNode;
-}
