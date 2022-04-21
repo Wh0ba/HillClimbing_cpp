@@ -89,13 +89,15 @@ string HillClimb(Node parents[], Node children[],char start, char goal){
 				if(i == edgeCount - 1){
 					close.push(open.top());
 					open.pop();
-					break;
+					if(goal == close.top()) break;
+					else return "Did not find goal";
 				}
 				continue;
 			}
 			Node c = parents[i];
 			close.push(open.top());
 			open.pop();
+			if(goal == close.top()) break;
 			Node minNode = children[i];
 			for(int j=i+1;j<edgeCount;j++){
 				if(c.state == parents[j].state){
@@ -113,4 +115,15 @@ string HillClimb(Node parents[], Node children[],char start, char goal){
 	}
 	reverse(path.begin(), path.end());
 	return path;
+}
+
+
+Node getSmallestChild(char parent, int i, Node parents[], Node children[]) {
+	Node minNode = children[i];
+	for(int j = i+1; j < edgeCount; j++) {
+		if(parent == parents[j].state) {
+			if(children[j].value < minNode.value) minNode = children[j];
+		}
+	}
+	return minNode;
 }
