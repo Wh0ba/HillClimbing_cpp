@@ -7,11 +7,11 @@ struct Node {
 	char state;
 	int value;
 };
-int edgeCount=0;
+int edgeCount = 0;
 
 void readGraph(Node parents[], Node children[]);
 void printGraph(Node parents[], Node children[]);
-string HillClimb(Node parents[], Node children[],char start, char goal);
+string HillClimb(Node parents[], Node children[], char start, char goal);
 
 int main() {
 	int e;
@@ -23,9 +23,9 @@ int main() {
 	Node childNodes[edgeCount];
 	readGraph(parentNodes, childNodes);
 	cout << "Enter The Start State: ";
-	char start;cin >> start;
+	char start; cin >> start;
 	cout << "Enter the Goal State: ";
-	char goal;cin >> goal;
+	char goal; cin >> goal;
 
 	//printGraph(parentNodes, childNodes, edgeCount);
 	string result = HillClimb(parentNodes, childNodes, start, goal);
@@ -36,7 +36,8 @@ int main() {
 Node getNode(Node p[], Node c[]) {
 	char s;
 	cin >> s;
-	for (int i = 0; i < edgeCount; i++) { // search for the node in both arrays
+	for (int i = 0; i < edgeCount; i++) {
+		// search for the node in both arrays
 		if(s == p[i].state) return p[i];
 		if(s == c[i].state) return c[i];
 	}
@@ -79,14 +80,14 @@ void printGraph(Node parents[], Node children[]) {
 // 0 1 2 3 4
 // A A B C C
 // B C D E F
-string HillClimb(Node parents[], Node children[],char start, char goal){
-	stack<char> open;
-	stack<char> close;
+string HillClimb(Node parents[], Node children[], char start, char goal) {
+	stack < char > open;
+	stack < char > close;
 	open.push(start);
-	while(!open.empty()){
-		for(int i=0;i<edgeCount;i++){
+	while(!open.empty()) {
+		for(int i = 0; i < edgeCount; i++) {
 			if(parents[i].state != open.top()) {
-				if(i == edgeCount - 1){
+				if(i == edgeCount - 1) {
 					close.push(open.top());
 					open.pop();
 					if(goal == close.top()) break;
@@ -99,17 +100,22 @@ string HillClimb(Node parents[], Node children[],char start, char goal){
 			open.pop();
 			if(goal == close.top()) break;
 			Node minNode = children[i];
-			for(int j=i+1;j<edgeCount;j++){
-				if(c.state == parents[j].state){
+			int childCount = 1;
+			bool isEqual = true;
+			for(int j = i+1; j < edgeCount; j++) {
+				if(c.state == parents[j].state) {
+					childCount++;
+					if(!(minNode.value == children[j].value)) isEqual = false;
 					if(children[j].value < minNode.value) minNode = children[j];
-				}		
+				}
 			}
+			if(isEqual && !(childCount == 1)) return "Can\'t find goal, plateau problem";
 			open.push(minNode.state);
 			break;
 		}
 	}
 	string path = "";
-	while(!close.empty()){
+	while(!close.empty()) {
 		path += close.top();
 		close.pop();
 	}
